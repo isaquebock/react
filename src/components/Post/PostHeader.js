@@ -1,17 +1,16 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import Button from "./button"; 
+import Button from "../Button"; 
 
 export default function PostHeader(props) {
   return (
     <>
-      <strong>
+      <h3>
         {props.post.read ? <s>{props.post.title}</s> : props.post.title}
-      </strong>
+      </h3>
       
       <Button onClick={() => props.onRemove(props.post.id)}>Remover</Button>
-      <Button onClick={() => props.onRead(props.post)}>Lido</Button>
     </>
   );
 }
@@ -23,5 +22,4 @@ PostHeader.propTypes = {
         read: PropTypes.bool.isRequired
     }).isRequired,
     onRemove: PropTypes.func.isRequired,
-    onRead: PropTypes.func.isRequired
 }

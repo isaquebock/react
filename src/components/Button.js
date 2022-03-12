@@ -1,11 +1,11 @@
 import React, { useContext } from "react"
 import PropTypes from "prop-types"
 
-import { ThemeContext } from './App'
+import { ThemeContext } from '../context/ThemeContext'
 
 export default function Button(props) {
 
-    const theme = useContext(ThemeContext);
+    const { theme } = useContext(ThemeContext);
 
     return (
         <button 
@@ -15,7 +15,8 @@ export default function Button(props) {
             color: theme === 'dark' ? 'white' : 'darkgray',
             border: 'none',
             padding: '1rem',
-            margin: '1rem'
+            margin: '1rem 0',
+            cursor: 'pointer'
         }}
         >
             {props.children}
@@ -25,6 +26,4 @@ export default function Button(props) {
 
 Button.propTypes = {
     children: PropTypes.node.isRequired,
-    onClick: PropTypes.func.isRequired,
-    
 }

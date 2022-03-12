@@ -1,27 +1,23 @@
 import React, { useState, createContext } from 'react';
-import Header from './Header';
+import Header from '../Header';
 
-import Post from './Post';
+import Post from '../Post';
 
-export const ThemeContext = createContext('dark')
+import { ThemeProvider  } from '../../context/ThemeContext';
+
+import { Title } from './styles';
 
 export default function App() {
 
     // Hooks
 
-    const [theme, setTheme] = useState('dark')
-
     const [ posts, setPosts ] = useState([
-        { id: 1, title: 'Title#01', subtitle: 'Subtitle#01', likes: 20, read: false },
-        { id: 2, title: 'Title#02', subtitle: 'Subtitle#02', likes: 21, read: false },
-        { id: 3, title: 'Title#03', subtitle: 'Subtitle#03', likes: 24, read: false },
+        { id: 1, title: 'Title#01', subtitle: 'Subtitle#01', likes: 20, read: false, removed: false },
+        { id: 2, title: 'Title#02', subtitle: 'Subtitle#02', likes: 21, read: false, removed: false },
+        { id: 3, title: 'Title#03', subtitle: 'Subtitle#03', likes: 24, read: false, removed: false },
     ])
 
     // Functions
-
-    function handleToggleTheme() {
-        setTheme(theme => theme === 'dark' ? 'light' : 'dark')
-    }
 
     function handleReadPost(postReaded) {
         setPosts(posts => posts.map(post => ({
@@ -45,29 +41,27 @@ export default function App() {
     }
 
     function handleRemovePost(postId) {
-        setPosts((prevState) => (
-            prevState.filter(post => post.id !== postId)
+        setPosts((prevState) => prevState.map(
+            post => post.id === postId ? {...post, removed: true} : post
         ))
     }
 
     return (
-        <ThemeContext.Provider value={theme}>
-            <Header onToggleTheme={handleToggleTheme}>
-                <h2>
-                    Posts da Semana
+        <ThemeProvider>
+            <Header>
+                <Title >Posts da Semana</Title>
 
-                    <button onClick={handleRefresh}>Atualizar</button>    
-                </h2>
+                <button onClick={handleRefresh}>Atualizar</button>    
             </Header>
             
             { posts.map(post => (
                 <Post
-                    key={post.title}
+                    key={post.id}
                     post={post} 
                     onRemove={handleRemovePost}
                     onRead={handleReadPost}
                 />
             )) }
-        </ThemeContext.Provider>
+        </ThemeProvider>
     )
 }
